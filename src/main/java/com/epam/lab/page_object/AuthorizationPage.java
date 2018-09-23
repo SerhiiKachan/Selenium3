@@ -24,9 +24,7 @@ public class AuthorizationPage {
     private WebElement password;
 
     public AuthorizationPage(WebDriver webDriver) {
-        Properties driverProps = new MyParser().parsePropertiesFile("./src/main/properties/driver.properties");
         driver = webDriver;
-        driver.manage().timeouts().implicitlyWait(Integer.parseInt(driverProps.getProperty("implicit_wait")), TimeUnit.SECONDS);
         PageFactory.initElements(driver, this);
     }
 

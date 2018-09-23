@@ -12,27 +12,27 @@ import org.testng.annotations.Test;
 import org.w3c.dom.Document;
 
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 
 public class GMailTest {
 
     private WebDriver driver;
     private MyParser myParser;
-    private Logger LOG;
+    private final Logger LOG = Logger.getLogger(GMailTest.class);
 
     @BeforeClass
     public void init() {
-        LOG = Logger.getLogger(GMailTest.class);
         PropertyConfigurator.configure("./src/main/properties/log4j.properties");
         myParser = new MyParser();
         Properties driverProperties = myParser.parsePropertiesFile("./src/main/properties/driver.properties");
         System.setProperty("webdriver.chrome.driver", driverProperties.getProperty("browser_driver"));
         driver = new ChromeDriver();
+        driver.manage().timeouts().implicitlyWait(Integer.parseInt(driverProperties.getProperty("implicit_wait")), TimeUnit.SECONDS);
     }
 
     @Test
     public void testWithMessages() {
         LOG.info("start test...");
-
         Document xml = myParser.parseXML("./src/main/resources/LoginAndPassword.xml");
         AuthorizationPage authorizationPage = new AuthorizationPage(driver);
         InboxPage inboxPage = new InboxPage(driver);
@@ -59,7 +59,6 @@ public class GMailTest {
             e.printStackTrace();
         }
         driver.quit();
-
         LOG.info("test successfully passed");
     }
 }

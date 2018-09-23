@@ -30,6 +30,13 @@ public class InboxPage {
     @FindBy(id = "link_undo")
     private WebElement undoButton;
 
+    public InboxPage(WebDriver webDriver) {
+        Properties driverProps = new MyParser().parsePropertiesFile("./src/main/properties/driver.properties");
+        driver = webDriver;
+        wait = new WebDriverWait(driver, Integer.parseInt(driverProps.getProperty("explicit_wait")));
+        PageFactory.initElements(driver, this);
+    }
+
     private void selectMessage(WebElement message, int index) {
         try {
             message.click();
@@ -48,13 +55,6 @@ public class InboxPage {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    }
-
-    public InboxPage(WebDriver webDriver) {
-        Properties driverProps = new MyParser().parsePropertiesFile("./src/main/properties/driver.properties");
-        driver = webDriver;
-        wait = new WebDriverWait(driver, Integer.parseInt(driverProps.getProperty("explicit_wait")));
-        PageFactory.initElements(driver, this);
     }
 
     public void selectAndDeleteMessages() {

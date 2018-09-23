@@ -1,14 +1,10 @@
 package com.epam.lab.page_object;
 
-import com.epam.lab.parser.MyParser;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-
-import java.util.Properties;
-import java.util.concurrent.TimeUnit;
 
 public class AuthorizationPage {
 
@@ -28,11 +24,6 @@ public class AuthorizationPage {
         PageFactory.initElements(driver, this);
     }
 
-    public void logIn(String mail, String pass) {
-        enterEmail(mail);
-        enterPassword(pass);
-    }
-
     private void enterEmail(String mail) {
         email.sendKeys(mail);
         emailNextButton.click();
@@ -40,5 +31,10 @@ public class AuthorizationPage {
 
     private void enterPassword(String pass) {
         password.sendKeys(pass + Keys.ENTER);
+    }
+
+    public void logIn(String mail, String pass) {
+        enterEmail(mail);
+        enterPassword(pass);
     }
 }

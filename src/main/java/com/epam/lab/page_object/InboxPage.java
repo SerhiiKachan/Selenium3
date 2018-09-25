@@ -64,12 +64,13 @@ public class InboxPage {
         deleteMessages();
     }
 
-    public boolean checkUndoResult() {
+    public boolean isUndoCompleted() {
         try {
             driver.findElement(By.id(message1.getAttribute("id")));
             driver.findElement(By.id(message2.getAttribute("id")));
             driver.findElement(By.id(message3.getAttribute("id")));
         } catch (NoSuchElementException e) {
+            e.printStackTrace();
             return false;
         }
         return true;

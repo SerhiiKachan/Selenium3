@@ -20,13 +20,17 @@ public class GMailTest {
     private MyParser myParser;
     private final Logger LOG = Logger.getLogger(GMailTest.class);
 
+    static {
+        PropertyConfigurator.configure("./src/main/properties/log4j.properties");
+    }
+
     @BeforeClass
     public void init() {
-        PropertyConfigurator.configure("./src/main/properties/log4j.properties");
         myParser = new MyParser();
         Properties driverProperties = myParser.parsePropertiesFile("./src/main/properties/driver.properties");
         System.setProperty("webdriver.chrome.driver", driverProperties.getProperty("browser_driver"));
         driver = new ChromeDriver();
+        driver.manage().window().fullscreen();
         driver.manage().timeouts().implicitlyWait(Integer.parseInt(driverProperties.getProperty("implicit_wait")), TimeUnit.SECONDS);
     }
 
@@ -37,18 +41,12 @@ public class GMailTest {
         AuthorizationPage authorizationPage = new AuthorizationPage(driver);
         InboxPage inboxPage = new InboxPage(driver);
 
-        driver.get("https://www.google.com");
-        WebElement search = driver.findElement(By.name("q"));
-        search.sendKeys("gmail");
-        search.submit();
-        WebElement gMailLink = driver.findElement(By.xpath("//a[contains(@href, 'https://www.google.com/gmail/')]"));
-        gMailLink.click();
-        WebElement signIn = driver.findElement(By.cssSelector("a.gmail-nav__nav-link.gmail-nav__nav-link__sign-in"));
-        signIn.click();
+        driver.get("https://accounts.google.com/AccountChooser?service=mail&continue=https://mail.google.com/mail/");
         authorizationPage.logIn(xml.getElementsByTagName("email").item(0).getTextContent(),
                 xml.getElementsByTagName("password").item(0).getTextContent());
         inboxPage.selectAndDeleteMessages();
-        Assert.assertEquals(true, inboxPage.checkUndoResult());
+        Assert.assertTrue(inboxPage.isUndoCompleted());
+
     }
 
     @AfterClass

@@ -1,12 +1,16 @@
 package com.epam.lab.page_object;
 
 import com.epam.lab.parser.MyParser;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 public class InboxPage {

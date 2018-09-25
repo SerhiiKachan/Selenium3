@@ -41,7 +41,7 @@ public class GMailTest {
         AuthorizationPage authorizationPage = new AuthorizationPage(driver);
         InboxPage inboxPage = new InboxPage(driver);
 
-        driver.get("https://accounts.google.com/AccountChooser?service=mail&continue=https://mail.google.com/mail/");
+        driver.get("https://mail.google.com");
         authorizationPage.logIn(xml.getElementsByTagName("email").item(0).getTextContent(),
                 xml.getElementsByTagName("password").item(0).getTextContent());
         inboxPage.selectAndDeleteMessages();

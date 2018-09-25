@@ -35,28 +35,21 @@ public class GMailTest {
     }
 
     @Test
-    public void testWithMessages() {
-        LOG.info("start test...");
+    public void testUndoWithMessagesDeletion() {
+        LOG.info("inside test");
         Document xml = myParser.parseXML("./src/main/resources/LoginAndPassword.xml");
         AuthorizationPage authorizationPage = new AuthorizationPage(driver);
         InboxPage inboxPage = new InboxPage(driver);
-
         driver.get("https://mail.google.com");
         authorizationPage.logIn(xml.getElementsByTagName("email").item(0).getTextContent(),
                 xml.getElementsByTagName("password").item(0).getTextContent());
-        inboxPage.selectAndDeleteMessages();
+        inboxPage.selectAndDeleteMessages(3);
         Assert.assertTrue(inboxPage.isUndoCompleted());
-
+        LOG.info("test successfully passed");
     }
 
     @AfterClass
     public void exit() {
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         driver.quit();
-        LOG.info("test successfully passed");
     }
 }
